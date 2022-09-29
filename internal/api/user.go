@@ -19,20 +19,20 @@ type registerRequest struct {
 	Password  string `json:"password"`
 }
 
-func (server *Server) register(ctx *gin.Context) {
+func (server *Server) createUser(ctx *gin.Context) {
 	var req registerRequest
 	if err := ctx.BindJSON(&req); err != nil {
 		ctx.JSON(http.StatusBadRequest, errorResponse(err))
 		return
 	}
 	userSvc := server.service.user
-	arg := user.RegisterParams{
+	arg := user.CreateUserParams{
 		FirstName: req.FirstName,
 		LastName:  req.LastName,
 		Email:     req.Email,
 		Password:  req.Password,
 	}
-	resStr, err := userSvc.Register(ctx, arg)
+	resStr, err := userSvc.CreateUser(ctx, arg)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
 		return

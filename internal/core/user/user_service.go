@@ -7,17 +7,17 @@ import (
 )
 
 type UserService interface {
-	Register(ctx context.Context, arg RegisterParams) (string, error)
+	CreateUser(ctx context.Context, arg CreateUserParams) (string, error)
 }
 
-type RegisterParams struct {
+type CreateUserParams struct {
 	FirstName string
 	LastName  string
 	Email     string
 	Password  string
 }
 
-func (svc *userService) Register(ctx context.Context, arg RegisterParams) (string, error) {
+func (svc *userService) CreateUser(ctx context.Context, arg CreateUserParams) (string, error) {
 	var result string
 
 	err := svc.userRf.WithTransaction(
