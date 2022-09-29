@@ -1,0 +1,25 @@
+create_table("users") {
+    t.Column("id", "uuid", {primary: true})
+    t.Column("first_name", "string", {"size": 30})
+    t.Column("last_name", "string", {"size": 30})
+    t.Column("email", "string", {"size": 64})
+    t.Column("username", "string", {"null": true, "size": 30})
+    t.Column("password", "string", {})
+    t.Column("created_at", "timestamp", {"default_raw": "CURRENT_TIMESTAMP"})
+    t.Column("updated_at", "timestamp", {"default_raw": "CURRENT_TIMESTAMP"})
+}
+add_index("users", ["username"], {"name": "user_username_idx"})
+
+create_table("tasks") {
+    t.Column("id", "uuid", {primary: true})
+    t.Column("name", "string", {"size": 30})
+    t.Column("description", "string", {"null": true})
+    t.Column("is_done", "bool", {"default": false})
+    t.Column("user_id", "uuid", {})
+    t.Column("created_at", "timestamp", {"default_raw": "CURRENT_TIMESTAMP"})
+    t.Column("updated_at", "timestamp", {"default_raw": "CURRENT_TIMESTAMP"})
+    t.Column("due_date", "timestamp", {})
+    t.ForeignKey("user_id", {"users": ["id"]}, {"on_delete": "cascade"})
+}
+add_index("tasks", ["user_id"], {"name": "task_user_id_idx"})
+
